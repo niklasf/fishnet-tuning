@@ -49,7 +49,7 @@ async def main():
         "1/2-1/2": "draw",
     }
 
-    for epd in open("noob_3moves_sample.epd"):
+    for i, epd in enumerate(open("noob_3moves_sample.epd")):
         board = chess.Board(epd)
 
         result_a = await play(board.copy(), a, b, nodes=4000_000)
@@ -58,7 +58,7 @@ async def main():
         result_b = await play(board, b, a, nodes=4000_000)
         stats[b_white[result_b]] += 1
 
-        print(board.epd(), result_a, result_b, stats)
+        print(i, board.epd(), result_a, result_b, stats)
 
 
 if __name__ == "__main__":
