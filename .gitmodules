@@ -1,3 +1,6 @@
 [submodule "Stockfish"]
 	path = Stockfish
 	url = https://github.com/official-stockfish/Stockfish
+[submodule "books"]
+	path = books
+	url = https://github.com/official-stockfish/books
