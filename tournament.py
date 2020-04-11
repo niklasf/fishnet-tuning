@@ -6,7 +6,7 @@ import chess.engine
 import logging
 
 
-async def play(board, white, black):
+async def play(board, white, black, *, nodes):
     engines = [black, white]
 
     while True:
@@ -15,13 +15,21 @@ async def play(board, white, black):
             return result
 
         engine = engines[board.turn]
-        m = await engine.play(board, chess.engine.Limit(nodes=1000), game=object())
+        m = await engine.play(board, chess.engine.Limit(nodes=nodes), game=object())
         board.push(m.move)
 
 
 async def main():
     _, a = await chess.engine.popen_uci("./Stockfish/src/stockfish")
     _, b = await chess.engine.popen_uci("./Stockfish/src/stockfish")
+
+    await a.configure({
+        "Hash": "1",
+    })
+
+    await b.configure({
+        "Hash": "512",
+    })
 
     stats = {
         "a": 0,
@@ -44,10 +52,10 @@ async def main():
     for epd in open("noob_3moves_sample.epd"):
         board = chess.Board(epd)
 
-        result_a = await play(board.copy(), a, b)
+        result_a = await play(board.copy(), a, b, nodes=4000_000)
         stats[a_white[result_a]] += 1
 
-        result_b = await play(board, b, a)
+        result_b = await play(board, b, a, nodes=4000_000)
         stats[b_white[result_b]] += 1
 
         print(board.epd(), result_a, result_b, stats)
