@@ -55,7 +55,7 @@ async def main():
         result_a = await play(board.copy(), a, b, nodes=1000_000)
         stats[a_white[result_a]] += 1
 
-        result_b = await play(board, b, a, nodes=1000_000)
+        result_b = await play(board.copy(), b, a, nodes=1000_000)
         stats[b_white[result_b]] += 1
 
         print(i, board.epd(), result_a, result_b, stats)
