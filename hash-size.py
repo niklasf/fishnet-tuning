@@ -5,9 +5,13 @@ import chess
 import chess.engine
 import logging
 
+#logging.basicConfig(level=logging.DEBUG)
+
 
 async def play(board, white, black, *, nodes):
     engines = [black, white]
+
+    times = [0, 0]
 
     while True:
         result = board.result(claim_draw=True)
@@ -15,8 +19,10 @@ async def play(board, white, black, *, nodes):
             return result
 
         engine = engines[board.turn]
-        m = await engine.play(board, chess.engine.Limit(nodes=nodes), game=object())
+        m = await engine.play(board, chess.engine.Limit(nodes=nodes), game=object(), info=chess.engine.INFO_BASIC)
+        times[board.turn] += m.info["time"]
         board.push(m.move)
+        print(times)
 
 
 async def main():
@@ -24,7 +30,7 @@ async def main():
     _, b = await chess.engine.popen_uci("./Stockfish/src/stockfish")
 
     await a.configure({
-        "Hash": "1",
+        "Hash": "16",
     })
 
     await b.configure({
