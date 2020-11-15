@@ -44,7 +44,7 @@ def boards():
 
 async def thread(producer):
     _, engine = await chess.engine.popen_uci("./Stockfish/src/stockfish")
-    await engine.configure({"Use NNUE": False})
+    await engine.configure({"Use NNUE": True})
 
     nodes = 0
 
