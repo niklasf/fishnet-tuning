@@ -8,6 +8,7 @@ import time
 import chess.pgn
 import chess.engine
 
+NNUE = False
 
 GAMES = """\
 1. d3 d5 2. g3 e6 3. Bg2 Nf6 4. Nf3 Be7 5. O-O O-O 6. Re1 a6 7. e4 c5 8. e5 Nfd7 9. d4 Nb6 10. dxc5 Bxc5 11. Nc3 N8d7 12. a4 Be7 13. a5 Nc4 14. b3 Ncxe5 15. Nxe5 Nxe5 16. Rxe5 Bd6 17. Re1 Bd7 18. Bf4 Bc6 19. Bxd6 Qxd6 20. Na4 Rad8 21. Nb6 Rfe8 22. Ra4 Bxa4 23. bxa4 Qc5 24. Qa1 Qxa5 25. Qd4 Rd6 26. Nc4 Qb4 27. Nxd6 Qxd4 28. Nxe8 Qd2 29. Rb1 Qxc2 30. Rxb7 Qxa4 31. Rb8 Kf8 32. Nd6+ Ke7 33. Nf5+ Kf6 34. Nh4 Qd1+ 35. Bf1 Qd4 36. Kg2 a5 37. Rb7 a4 38. Rxf7+ Kxf7 39. Nf3 Ke7 40. Ne5 Kd6 41. Nf3 Qc4 42. Nd4 Qc3 43. Nf5+ Ke5 44. Ne3 Kf6 45. Nxd5+ exd5 0-1
@@ -44,7 +45,7 @@ def boards():
 
 async def thread(producer):
     _, engine = await chess.engine.popen_uci("./Stockfish/src/stockfish")
-    await engine.configure({"Use NNUE": True})
+    await engine.configure({"Use NNUE": NNUE})
 
     nodes = 0
 
@@ -64,6 +65,7 @@ async def thread(producer):
 async def main():
     cpus = os.cpu_count()
 
+    print("NNUE:", NNUE)
     print("Threads:", cpus)
     print("Positions:", sum(1 for _ in boards()))
     print("---")
@@ -75,7 +77,7 @@ async def main():
 
     print()
     print("---")
-    print("Nodes:", nodes, "(expected 3023559331)")
+    print("Nodes:", nodes, "(expected 3023559331 classical, 3023530860 nnue)")
     print("Elapsed:", elapsed)
     print("Nodes/s:", nodes / elapsed)
 
