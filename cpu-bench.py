@@ -54,7 +54,7 @@ async def thread(producer):
         except StopIteration:
             break
 
-        info = await engine.analyse(board, chess.engine.Limit(nodes=10000), game=object())
+        info = await engine.analyse(board, chess.engine.Limit(nodes=2_000_000), game=object())
         print(".", end="", flush=True)
         nodes += info.get("nodes", 0)
 
