@@ -38,3 +38,8 @@ REMEMBER: 1050
 ```
 
 Elo diff estimate: -182
+
+CPU comparisons
+---------------
+
+https://docs.google.com/spreadsheets/d/1RjL0xcZC94qFtkgd_lDN2jgwHF5rkf6FcOF2rEM4I7I/edit?usp=sharing
