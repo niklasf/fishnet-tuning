@@ -36,21 +36,21 @@ def boards():
     for line in GAMES.splitlines():
         game = chess.pgn.read_game(io.StringIO(line))
         board = game.board()
-        yield board
+        yield board.copy()
         for move in game.mainline_moves():
             board.push(move)
-            yield board
+            yield board.copy()
 
 
 async def thread(producer):
-    _, engine = await chess.engine.popen_uci("stockfish")
+    _, engine = await chess.engine.popen_uci("./Stockfish/src/stockfish")
     await engine.configure({"Use NNUE": False})
 
     nodes = 0
 
     while True:
         try:
-            board = next(producer).copy()
+            board = next(producer)
         except StopIteration:
             break
 
