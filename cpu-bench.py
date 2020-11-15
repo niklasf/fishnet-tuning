@@ -75,7 +75,7 @@ async def main():
 
     print()
     print("---")
-    print("Nodes:", nodes)
+    print("Nodes:", nodes, "(expected 3023559331)")
     print("Elapsed:", elapsed)
     print("Nodes/s:", nodes / elapsed)
 
